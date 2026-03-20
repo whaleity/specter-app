@@ -3,183 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Specter - Elite Mining</title>
+    <title>Specter Elite Miner</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #1DB954; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.05); }
+        :root { --neon: #1DB954; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.04); }
         body { background-color: var(--dark-bg); color: #fff; font-family: 'Rajdhani', sans-serif; overflow: hidden; height: 100vh; }
         .font-cyber { font-family: 'Orbitron', sans-serif; }
+        .glass-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(29, 185, 84, 0.1); border-radius: 16px; }
+        .neon-text { text-shadow: 0 0 8px var(--neon); color: var(--neon); }
         
-        /* Arka Plan Işığı */
-        .bg-glow {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 300px; height: 300px; background: var(--neon);
-            filter: blur(150px); opacity: 0.15; z-index: -1;
+        /* Hayalet Profil Görseli */
+        .ghost-avatar {
+            width: 48px; height: 48px;
+            background-image: url('https://i.ibb.co/hR0fH8M/ghost-silhouette.png'); /* Senin Görselin */
+            background-size: cover; background-position: center; border-radius: 12px;
+            border: 2px solid var(--neon); box-shadow: 0 0 10px var(--neon);
         }
 
-        /* Cam Efekti Kartlar */
-        .glass-card {
-            background: var(--glass); backdrop-filter: blur(10px);
-            border: 1px solid rgba(29, 185, 84, 0.2); border-radius: 20px;
-        }
-
-        /* Ana Maden Çekirdeği */
-        .mining-core {
-            position: relative; width: 260px; height: 260px;
-            background: radial-gradient(circle, #1DB954 0%, #000 80%);
+        /* Ana Coin Çekirdeği */
+        .coin-core {
+            width: 220px; height: 220px;
+            background: radial-gradient(circle, #1DB954 0%, #000 85%);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            border: 4px solid rgba(29, 185, 84, 0.3); box-shadow: 0 0 40px rgba(29, 185, 84, 0.2);
-            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 5px solid rgba(29, 185, 84, 0.2); box-shadow: 0 0 30px rgba(29, 185, 84, 0.15);
+            transition: transform 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .mining-core:active { transform: scale(0.90); }
-        .mining-core::after {
-            content: ''; position: absolute; width: 110%; height: 110%;
-            border-radius: 50%; border: 1px dashed var(--neon);
-            animation: rotate 10s linear infinite; opacity: 0.3;
-        }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        /* Yüzen Rakam Animasyonu */
-        .float-val {
-            position: absolute; font-weight: bold; color: var(--neon);
-            font-size: 24px; pointer-events: none; animation: floatUp 0.8s ease-out forwards;
-        }
-        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-100px); } }
-
-        /* Alt Menü Glow */
-        .nav-active { color: var(--neon); text-shadow: 0 0 10px var(--neon); border-top: 2px solid var(--neon); }
+        .coin-core:active { transform: scale(0.90); }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between py-6 px-4">
-    <div class="bg-glow"></div>
+<body class="flex flex-col items-center justify-between py-5 px-4 pb-24">
 
-    <div class="w-full max-w-sm flex items-center justify-between glass-card p-3">
+    <div class="w-full max-w-sm flex items-center justify-between glass-card p-3 border border-gray-900">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1DB954] to-black p-[1px]">
-                <div class="w-full h-full bg-black rounded-lg flex items-center justify-center font-bold text-[#1DB954]">S</div>
-            </div>
+            <div class="ghost-avatar"></div>
             <div>
-                <h2 class="text-sm font-bold tracking-wider">SPECTER USER</h2>
-                <div class="flex items-center gap-2">
-                    <div class="w-16 h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                        <div class="bg-[#1DB954] h-full" style="width: 45%"></div>
-                    </div>
-                    <span class="text-[10px] text-gray-400">LVL 3</span>
-                </div>
+                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Specter Pilot</h2>
+                <p class="font-semibold text-white text-sm">Novice Miner</p>
             </div>
         </div>
         <div class="text-right">
-            <p class="text-[10px] text-gray-500 font-bold uppercase">Profit / Hour</p>
-            <p class="text-xs font-cyber text-[#1DB954]">+12.5K</p>
+            <p class="text-[10px] text-gray-500 font-bold uppercase">Profit / Hr</p>
+            <p class="text-xs font-cyber neon-text">+12.5K</p>
         </div>
     </div>
 
     <div class="text-center">
         <div class="flex items-center justify-center gap-2 mb-2">
-            <img src="https://cryptologos.cc/logos/toncoin-ton-logo.png" class="w-5 h-5" alt="ton">
             <span class="text-gray-400 font-bold tracking-[0.2em] text-xs">TOTAL BALANCE</span>
         </div>
-        <h1 id="balance" class="text-6xl font-cyber font-bold tracking-tighter text-white">1,000.00</h1>
+        <h1 id="balance" class="text-5xl font-cyber font-bold tracking-tighter text-white">1,250.78</h1>
     </div>
 
-    <div class="relative flex items-center justify-center">
-        <div id="tap-target" class="mining-core cursor-pointer">
-            <div class="text-center">
-                <p class="text-4xl font-black font-cyber tracking-widest text-white drop-shadow-lg">SPCT</p>
-                <p class="text-[10px] text-[#1DB954] font-bold tracking-[0.3em] mt-1">TAP TO MINE</p>
-            </div>
-        </div>
-    </div>
+    <div id="tap-target" class="coin-core cursor-pointer relative">
+        <span class="text-6xl">👻</span> </div>
 
-    <div class="w-full max-w-sm px-2 space-y-4 mb-20">
+    <div class="w-full max-w-sm px-2 space-y-4">
         <div class="flex justify-between items-end">
             <div class="flex items-center gap-2">
                 <span class="text-2xl">⚡</span>
-                <div>
-                    <p id="energy-val" class="text-xl font-cyber font-bold">68 / 68</p>
-                    <p class="text-[10px] text-gray-500 font-bold uppercase">Energy Limit</p>
-                </div>
+                <p id="energy-val" class="text-2xl font-cyber font-bold">68 / 68</p>
             </div>
-            <button class="glass-card px-4 py-2 text-[#1DB954] font-bold text-xs uppercase tracking-widest border-none">
-                Boost 🚀
-            </button>
+            <p class="text-xs font-bold text-[#1DB954] uppercase tracking-widest">Boost 🚀</p>
         </div>
-        <div class="w-full bg-gray-900 h-2.5 rounded-full p-[2px] border border-gray-800">
+        <div class="w-full bg-gray-900 h-2 rounded-full border border-gray-800">
             <div id="energy-bar" class="bg-gradient-to-r from-[#1DB954] to-[#0d5c2a] h-full rounded-full transition-all duration-300" style="width: 100%"></div>
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 h-20 bg-black/90 backdrop-blur-xl border-t border-[#1DB954]/20 px-6 flex justify-between items-center z-50">
-        <div class="flex flex-col items-center gap-1 nav-active pt-2">
-            <span class="text-xl">⛏️</span>
-            <span class="text-[10px] font-bold">MINE</span>
-        </div>
-        <div class="flex flex-col items-center gap-1 text-gray-600 pt-2">
-            <span class="text-xl">🚀</span>
-            <span class="text-[10px] font-bold">UPGRADES</span>
-        </div>
-        <div class="flex flex-col items-center gap-1 text-gray-600 pt-2">
-            <span class="text-xl">🏆</span>
-            <span class="text-[10px] font-bold">TASKS</span>
-        </div>
-        <div class="flex flex-col items-center gap-1 text-gray-600 pt-2">
-            <span class="text-xl">👥</span>
-            <span class="text-[10px] font-bold">FRIENDS</span>
-        </div>
-        <div class="flex flex-col items-center gap-1 text-gray-600 pt-2">
-            <span class="text-xl">👛</span>
-            <span class="text-[10px] font-bold">WALLET</span>
-        </div>
+    <nav class="fixed bottom-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-xl border-t border-[#1DB954]/10 px-6 flex justify-around items-center z-50">
+        <div class="text-[#1DB954] text-center font-bold text-[10px]">⛏️<br>MINE</div>
+        <div class="text-gray-600 text-center font-bold text-[10px]">📋<br>TASKS</div>
+        <div class="text-gray-600 text-center font-bold text-[10px]">👥<br>FRIENDS</div>
+        <div class="text-gray-600 text-center font-bold text-[10px]">👛<br>WALLET</div>
     </nav>
 
     <script>
-        let balance = 1000.00;
-        let energy = 68;
-        const maxEnergy = 68;
-        const tapTarget = document.getElementById('tap-target');
-        const balanceDisplay = document.getElementById('balance');
-        const energyBar = document.getElementById('energy-bar');
-        const energyVal = document.getElementById('energy-val');
+        let balance = 1250.78; let energy = 68; const maxEnergy = 68;
+        const tapTarget = document.getElementById('tap-target'); const balanceDisplay = document.getElementById('balance');
+        const energyBar = document.getElementById('energy-bar'); const energyVal = document.getElementById('energy-val');
 
         tapTarget.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Mobil tarayıcı zoom engelleme
-            if (energy > 0) {
-                handleTap(e.touches[0].clientX, e.touches[0].clientY);
-            }
+            e.preventDefault(); if (energy > 0) { handleTap(); }
         });
 
-        function handleTap(x, y) {
-            balance += 0.01;
-            energy -= 1;
-            
-            // UI Güncelleme
-            balanceDisplay.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2});
+        function handleTap() {
+            balance += 0.01; energy -= 1;
+            balanceDisplay.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
             energyVal.innerText = `${energy} / ${maxEnergy}`;
             energyBar.style.width = `${(energy / maxEnergy) * 100}%`;
-
-            // Animasyon Efekti
-            const float = document.createElement('div');
-            float.innerText = '+0.01';
-            float.className = 'float-val font-cyber';
-            float.style.left = `${x}px`;
-            float.style.top = `${y}px`;
-            document.body.appendChild(float);
-            setTimeout(() => float.remove(), 800);
-
-            // Cihaz destekliyorsa titreşim (Haptic Feedback)
             if (navigator.vibrate) navigator.vibrate(20);
         }
-
-        // Enerji Yenilenmesi (Her 5 saniyede +1 enerji)
-        setInterval(() => {
-            if (energy < maxEnergy) {
-                energy++;
-                energyVal.innerText = `${energy} / ${maxEnergy}`;
-                energyBar.style.width = `${(energy / maxEnergy) * 100}%`;
-            }
-        }, 5000);
     </script>
 </body>
 </html>
