@@ -2,38 +2,110 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Specter App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Specter Mini App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #000; color: #1DB954; font-family: sans-serif; text-align: center; }
-        #balance { font-size: 3rem; margin-top: 50px; font-weight: bold; }
-        #main-btn { 
-            width: 200px; height: 200px; border-radius: 50%; border: 5px solid #1DB954;
-            background: transparent; color: #1DB954; font-size: 1.5rem; margin-top: 50px;
-            box-shadow: 0 0 20px #1DB954; cursor: pointer;
+        body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
+        .neon-text { text-shadow: 0 0 10px #1DB954, 0 0 20px #1DB954; color: #1DB954; }
+        .neon-border { border: 2px solid #1DB954; box-shadow: 0 0 15px #1DB954; }
+        .core-btn {
+            background: radial-gradient(circle, #1DB954 0%, #000 70%);
+            transition: transform 0.1s ease;
         }
-        #main-btn:active { transform: scale(0.95); }
+        .core-btn:active { transform: scale(0.9); }
+        .nav-item { color: #666; font-size: 0.7rem; }
+        .nav-item.active { color: #1DB954; }
     </style>
 </head>
-<body>
-    <div id="balance">0.0000</div>
-    <button id="main-btn">DOKUN</button>
+<body class="flex flex-col items-center justify-between h-screen p-6">
+
+    <div class="text-center mt-8">
+        <p class="text-gray-400 uppercase tracking-widest text-xs mb-2">Toplam Kazanç</p>
+        <h1 id="balance" class="text-5xl font-black neon-text">0.0000</h1>
+        <p class="text-xs text-gray-500 mt-2">Saniyelik Kazanç: +0.0001 SPCT</p>
+    </div>
+
+    <div class="relative">
+        <div id="click-area" class="core-btn w-64 h-64 rounded-full flex items-center justify-center neon-border cursor-pointer">
+            <span class="text-4xl font-bold text-white opacity-50">SPCT</span>
+        </div>
+    </div>
+
+    <div class="w-full max-w-sm space-y-6 mb-4">
+        <div class="space-y-2">
+            <div class="flex justify-between text-xs font-bold">
+                <span>Enerji Kapasitesi</span>
+                <span id="energy-text">68 / 68</span>
+            </div>
+            <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden">
+                <div id="energy-bar" class="bg-[#1DB954] h-full transition-all duration-300" style="width: 100%"></div>
+            </div>
+        </div>
+
+        <div class="bg-gray-900/50 backdrop-blur-md rounded-2xl p-4 flex justify-around border border-gray-800">
+            <div class="nav-item active flex flex-col items-center">
+                <div class="w-6 h-6 mb-1">⛏️</div>
+                <span>Madenci</span>
+            </div>
+            <div class="nav-item flex flex-col items-center">
+                <div class="w-6 h-6 mb-1">📋</div>
+                <span>Görevler</span>
+            </div>
+            <div class="nav-item flex flex-col items-center">
+                <div class="w-6 h-6 mb-1">👥</div>
+                <span>Ref</span>
+            </div>
+            <div class="nav-item flex flex-col items-center">
+                <div class="w-6 h-6 mb-1">💰</div>
+                <span>Cüzdan</span>
+            </div>
+        </div>
+    </div>
 
     <script>
         let balance = 0;
+        let energy = 68;
+        const maxEnergy = 68;
+
         const balanceEl = document.getElementById('balance');
-        
-        // Her saniye otomatik artış (Pasif kazanç)
+        const energyBar = document.getElementById('energy-bar');
+        const energyText = document.getElementById('energy-text');
+        const clickArea = document.getElementById('click-area');
+
+        // Pasif Kazanç (Saniyede bir artış)
         setInterval(() => {
             balance += 0.0001;
-            balanceEl.innerText = balance.toFixed(4);
+            updateDisplay();
         }, 1000);
 
-        // Dokunma fonksiyonu
-        document.getElementById('main-btn').onclick = () => {
-            balance += 0.01;
+        // Tıklama Fonksiyonu
+        clickArea.addEventListener('click', (e) => {
+            if (energy > 0) {
+                balance += 0.01;
+                energy -= 1;
+                updateDisplay();
+                createFloatingText(e.clientX, e.clientY);
+            }
+        });
+
+        function updateDisplay() {
             balanceEl.innerText = balance.toFixed(4);
-        };
+            energyText.innerText = `${energy} / ${maxEnergy}`;
+            const percent = (energy / maxEnergy) * 100;
+            energyBar.style.width = percent + '%';
+        }
+
+        // Tıklanan yerde +0.01 yazısı çıksın (Efekt)
+        function createFloatingText(x, y) {
+            const el = document.createElement('div');
+            el.innerText = '+0.01';
+            el.className = 'absolute font-bold text-[#1DB954] pointer-events-none animate-bounce';
+            el.style.left = x + 'px';
+            el.style.top = (y - 50) + 'px';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 800);
+        }
     </script>
 </body>
 </html>
