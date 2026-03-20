@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specter App</title>
+    <style>
+        body { background-color: #000; color: #1DB954; font-family: sans-serif; text-align: center; }
+        #balance { font-size: 3rem; margin-top: 50px; font-weight: bold; }
+        #main-btn { 
+            width: 200px; height: 200px; border-radius: 50%; border: 5px solid #1DB954;
+            background: transparent; color: #1DB954; font-size: 1.5rem; margin-top: 50px;
+            box-shadow: 0 0 20px #1DB954; cursor: pointer;
+        }
+        #main-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <div id="balance">0.0000</div>
+    <button id="main-btn">DOKUN</button>
+
+    <script>
+        let balance = 0;
+        const balanceEl = document.getElementById('balance');
+        
+        // Her saniye otomatik artış (Pasif kazanç)
+        setInterval(() => {
+            balance += 0.0001;
+            balanceEl.innerText = balance.toFixed(4);
+        }, 1000);
+
+        // Dokunma fonksiyonu
+        document.getElementById('main-btn').onclick = () => {
+            balance += 0.01;
+            balanceEl.innerText = balance.toFixed(4);
+        };
+    </script>
+</body>
+</html>
