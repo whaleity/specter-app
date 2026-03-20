@@ -3,163 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Specter - Elite Digital Asset</title>
+    <title>Specter Elite</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #050505; 
-            color: #ffffff; 
-            font-family: 'Inter', sans-serif; 
-            overflow: hidden; 
-            letter-spacing: -0.02em;
-        }
-        
-        /* Premium Cam Efekti */
-        .premium-card {
-            background: rgba(20, 20, 20, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-        }
-
-        /* Kurumsal "Specter" Çekirdeği */
-        .core-interface {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, #064e3b 0%, #050505 80%);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .core-interface:active {
-            transform: scale(0.97);
-            border-color: #10b981;
-            background: radial-gradient(circle at center, #065f46 0%, #050505 85%);
-        }
-
-        /* Hayalet Silüeti - Daha Minimal */
-        .ghost-vector {
-            width: 120px;
-            opacity: 0.15;
-            filter: grayscale(1) invert(1);
-        }
-
-        /* Alt Navigasyon - Minimalist */
-        .nav-link {
-            font-size: 10px;
-            font-weight: 600;
-            color: #444;
-            transition: color 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        .nav-link.active {
-            color: #10b981;
-        }
-
-        /* Gizli Işık Efekti */
-        .top-glow {
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
-            width: 300px; height: 300px; background: #10b981;
-            filter: blur(150px); opacity: 0.08; z-index: -1;
-        }
+        :root { --neon: #1DB954; --bg: #000; --card: #111; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; height: 100vh; }
+        .tab-content { display: none; height: calc(100vh - 180px); overflow-y: auto; }
+        .tab-content.active { display: block; }
+        .neon-border { border: 1px solid rgba(29, 185, 84, 0.3); box-shadow: 0 0 15px rgba(29, 185, 84, 0.1); }
+        .upgrade-card { background: var(--card); border: 1px solid #222; border-radius: 16px; padding: 12px; transition: all 0.2s; }
+        .upgrade-card:active { transform: scale(0.95); border-color: var(--neon); }
+        .nav-btn { color: #555; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; text-align: center; }
+        .nav-btn.active { color: var(--neon); transform: translateY(-3px); }
+        .ghost-bg { position: absolute; opacity: 0.05; width: 80%; pointer-events: none; z-index: 0; filter: grayscale(1) invert(1); }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between py-8 px-6 h-screen">
-    <div class="top-glow"></div>
+<body class="p-4">
 
-    <div class="w-full flex justify-between items-start">
-        <div class="space-y-1">
-            <h2 class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Operator</h2>
-            <p class="text-sm font-semibold tracking-tight">ID: SPECTER_0822</p>
+    <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-3 bg-[#111] p-2 pr-4 rounded-full border border-white/5">
+            <div class="w-8 h-8 rounded-full border border-[#1DB954] flex items-center justify-center text-[10px] font-bold">S</div>
+            <span class="text-xs font-bold tracking-tight">SPECTER_USER</span>
         </div>
-        <div class="text-right space-y-1">
-            <h2 class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Network Status</h2>
-            <p class="text-sm font-semibold text-emerald-500 flex items-center justify-end gap-1">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                ACTIVE
-            </p>
+        <div class="text-right">
+            <p class="text-[10px] text-gray-500 font-bold">PROFIT PER HOUR</p>
+            <p class="text-xs font-black text-[#1DB954]">+1.25K</p>
         </div>
     </div>
 
-    <div class="text-center space-y-2">
-        <p class="text-[11px] text-gray-500 font-medium tracking-[0.3em] uppercase">Accumulated Assets</p>
-        <div class="flex items-baseline justify-center gap-2">
-            <h1 id="balance" class="text-6xl font-extrabold tracking-tighter">14,250.00</h1>
-            <span class="text-lg font-light text-emerald-500">SPCT</span>
+    <div id="tab-mine" class="tab-content active text-center">
+        <div class="mb-4">
+            <p class="text-[10px] text-gray-500 font-bold tracking-[0.3em]">BALANCE</p>
+            <h1 id="balance" class="text-5xl font-extrabold tracking-tighter">14,250.00</h1>
         </div>
-        <div class="flex justify-center gap-4 pt-4">
-            <div class="premium-card px-4 py-2 text-left min-w-[120px]">
-                <p class="text-[9px] text-gray-500 uppercase font-bold">Yield / Hr</p>
-                <p class="text-sm font-semibold">+0.82 SPCT</p>
+        
+        <div class="relative flex justify-center items-center h-64">
+            <img src="https://i.ibb.co/hR0fH8M/ghost-silhouette.png" class="ghost-bg">
+            <div id="tap-target" class="w-56 h-56 rounded-full bg-gradient-to-b from-[#1DB954]/20 to-black border-2 border-[#1DB954]/30 flex items-center justify-center shadow-[0_0_50px_rgba(29,185,84,0.2)] active:scale-95 transition-all z-10">
+                <div class="w-44 h-44 rounded-full border border-white/5 flex items-center justify-center bg-black/40 backdrop-blur-sm text-4xl">👻</div>
             </div>
-            <div class="premium-card px-4 py-2 text-left min-w-[120px]">
-                <p class="text-[9px] text-gray-500 uppercase font-bold">Multiplier</p>
-                <p class="text-sm font-semibold text-emerald-500">x2.44</p>
+        </div>
+
+        <div class="mt-8 space-y-4">
+            <div class="flex justify-between text-xs font-bold px-2">
+                <span>ENERGY</span>
+                <span id="energy-text">68 / 68</span>
+            </div>
+            <div class="w-full h-2 bg-gray-900 rounded-full overflow-hidden border border-white/5">
+                <div id="energy-bar" class="h-full bg-[#1DB954] transition-all duration-300" style="width: 100%"></div>
             </div>
         </div>
     </div>
 
-    <div id="tap-target" class="core-interface shadow-2xl">
-        <div class="text-center z-10">
-            <p class="text-[10px] text-emerald-400 font-bold tracking-[0.5em] mb-2 uppercase">Interface</p>
-            <div class="w-16 h-[1px] bg-emerald-900 mx-auto"></div>
+    <div id="tab-upgrades" class="tab-content text-left">
+        <h2 class="text-xl font-bold mb-4 ml-2">Market & Nodes</h2>
+        <div class="grid grid-cols-2 gap-3 pb-10">
+            <div class="upgrade-card">
+                <p class="text-[10px] text-gray-500 font-bold uppercase">CPU Node</p>
+                <p class="text-xs font-bold text-[#1DB954] mb-2">+50 PPH</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2">
+                    <span class="text-xs font-bold text-gray-400">lvl 1</span>
+                    <span class="text-xs font-black">2.5K 💰</span>
+                </div>
+            </div>
+            <div class="upgrade-card">
+                <p class="text-[10px] text-gray-500 font-bold uppercase">GPU Farm</p>
+                <p class="text-xs font-bold text-[#1DB954] mb-2">+120 PPH</p>
+                <div class="flex justify-between items-center border-t border-white/5 pt-2">
+                    <span class="text-xs font-bold text-gray-400">lvl 3</span>
+                    <span class="text-xs font-black">15K 💰</span>
+                </div>
+            </div>
         </div>
-        <img src="https://i.ibb.co/hR0fH8M/ghost-silhouette.png" class="absolute ghost-vector pointer-events-none" alt="specter">
     </div>
 
-    <div class="w-full space-y-8">
-        <div class="space-y-3">
-            <div class="flex justify-between items-center px-1">
-                <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-emerald-500">System Energy</span>
-                <span id="energy-text" class="text-xs font-mono font-semibold">68 / 68</span>
-            </div>
-            <div class="w-full h-[3px] bg-gray-900 rounded-full overflow-hidden">
-                <div id="energy-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 100%"></div>
-            </div>
-        </div>
-
-        <nav class="flex justify-between items-center border-t border-gray-900 pt-6">
-            <div class="nav-link active">Terminal</div>
-            <div class="nav-link">Assets</div>
-            <div class="nav-link">Nodes</div>
-            <div class="nav-link">Secure</div>
-        </nav>
-    </div>
+    <nav class="fixed bottom-0 left-0 right-0 h-24 bg-black/90 backdrop-blur-xl border-t border-white/5 px-8 flex justify-between items-center pb-4">
+        <div onclick="showTab('mine')" class="nav-btn active" id="btn-mine">⛏️<br>MINE</div>
+        <div onclick="showTab('upgrades')" class="nav-btn" id="btn-upgrades">📉<br>MARKET</div>
+        <div onclick="showTab('tasks')" class="nav-btn">🏆<br>TASKS</div>
+        <div onclick="showTab('friends')" class="nav-btn">👥<br>FRIENDS</div>
+        <div onclick="showTab('wallet')" class="nav-btn">👛<br>WALLET</div>
+    </nav>
 
     <script>
         let balance = 14250.00;
         let energy = 68;
         const maxEnergy = 68;
-        const balanceDisplay = document.getElementById('balance');
-        const energyBar = document.getElementById('energy-bar');
-        const energyText = document.getElementById('energy-text');
 
+        // Sekme Değiştirme Fonksiyonu
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
+
+        // Tıklama Sistemi
         document.getElementById('tap-target').addEventListener('touchstart', (e) => {
             e.preventDefault();
             if (energy > 0) {
-                balance += 0.05;
+                balance += 0.01;
                 energy -= 1;
                 updateUI();
-                if (navigator.vibrate) navigator.vibrate(10);
+                if (navigator.vibrate) navigator.vibrate(20);
             }
         });
 
         function updateUI() {
-            balanceDisplay.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2});
-            energyText.innerText = `${energy} / ${maxEnergy}`;
-            energyBar.style.width = `${(energy / maxEnergy) * 100}%`;
+            document.getElementById('balance').innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('energy-text').innerText = `${energy} / ${maxEnergy}`;
+            document.getElementById('energy-bar').style.width = `${(energy/maxEnergy)*100}%`;
         }
 
-        // Pasif Kazanç (Yıllık verim gibi ağır ağır artar)
+        // Pasif Kazanç (Profit per Hour)
         setInterval(() => {
-            balance += 0.0002;
+            balance += (1250 / 3600); // 1250 saatlik kazanç saniyeye bölünür
             updateUI();
         }, 1000);
     </script>
