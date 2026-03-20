@@ -3,97 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Specter Elite Miner</title>
+    <title>Specter - Elite Digital Asset</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #1DB954; --dark-bg: #050505; --glass: rgba(255, 255, 255, 0.04); }
-        body { background-color: var(--dark-bg); color: #fff; font-family: 'Rajdhani', sans-serif; overflow: hidden; height: 100vh; }
-        .font-cyber { font-family: 'Orbitron', sans-serif; }
-        .glass-card { background: var(--glass); backdrop-filter: blur(10px); border: 1px solid rgba(29, 185, 84, 0.1); border-radius: 16px; }
-        .neon-text { text-shadow: 0 0 8px var(--neon); color: var(--neon); }
+        body { 
+            background-color: #050505; 
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+            letter-spacing: -0.02em;
+        }
         
-        /* Hayalet Profil Görseli */
-        .ghost-avatar {
-            width: 48px; height: 48px;
-            background-image: url('https://i.ibb.co/hR0fH8M/ghost-silhouette.png'); /* Senin Görselin */
-            background-size: cover; background-position: center; border-radius: 12px;
-            border: 2px solid var(--neon); box-shadow: 0 0 10px var(--neon);
+        /* Premium Cam Efekti */
+        .premium-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
         }
 
-        /* Ana Coin Çekirdeği */
-        .coin-core {
-            width: 220px; height: 220px;
-            background: radial-gradient(circle, #1DB954 0%, #000 85%);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            border: 5px solid rgba(29, 185, 84, 0.2); box-shadow: 0 0 30px rgba(29, 185, 84, 0.15);
-            transition: transform 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Kurumsal "Specter" Çekirdeği */
+        .core-interface {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, #064e3b 0%, #050505 80%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .coin-core:active { transform: scale(0.90); }
+        
+        .core-interface:active {
+            transform: scale(0.97);
+            border-color: #10b981;
+            background: radial-gradient(circle at center, #065f46 0%, #050505 85%);
+        }
+
+        /* Hayalet Silüeti - Daha Minimal */
+        .ghost-vector {
+            width: 120px;
+            opacity: 0.15;
+            filter: grayscale(1) invert(1);
+        }
+
+        /* Alt Navigasyon - Minimalist */
+        .nav-link {
+            font-size: 10px;
+            font-weight: 600;
+            color: #444;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .nav-link.active {
+            color: #10b981;
+        }
+
+        /* Gizli Işık Efekti */
+        .top-glow {
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            width: 300px; height: 300px; background: #10b981;
+            filter: blur(150px); opacity: 0.08; z-index: -1;
+        }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between py-5 px-4 pb-24">
+<body class="flex flex-col items-center justify-between py-8 px-6 h-screen">
+    <div class="top-glow"></div>
 
-    <div class="w-full max-w-sm flex items-center justify-between glass-card p-3 border border-gray-900">
-        <div class="flex items-center gap-3">
-            <div class="ghost-avatar"></div>
-            <div>
-                <h2 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Specter Pilot</h2>
-                <p class="font-semibold text-white text-sm">Novice Miner</p>
+    <div class="w-full flex justify-between items-start">
+        <div class="space-y-1">
+            <h2 class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Operator</h2>
+            <p class="text-sm font-semibold tracking-tight">ID: SPECTER_0822</p>
+        </div>
+        <div class="text-right space-y-1">
+            <h2 class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Network Status</h2>
+            <p class="text-sm font-semibold text-emerald-500 flex items-center justify-end gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                ACTIVE
+            </p>
+        </div>
+    </div>
+
+    <div class="text-center space-y-2">
+        <p class="text-[11px] text-gray-500 font-medium tracking-[0.3em] uppercase">Accumulated Assets</p>
+        <div class="flex items-baseline justify-center gap-2">
+            <h1 id="balance" class="text-6xl font-extrabold tracking-tighter">14,250.00</h1>
+            <span class="text-lg font-light text-emerald-500">SPCT</span>
+        </div>
+        <div class="flex justify-center gap-4 pt-4">
+            <div class="premium-card px-4 py-2 text-left min-w-[120px]">
+                <p class="text-[9px] text-gray-500 uppercase font-bold">Yield / Hr</p>
+                <p class="text-sm font-semibold">+0.82 SPCT</p>
+            </div>
+            <div class="premium-card px-4 py-2 text-left min-w-[120px]">
+                <p class="text-[9px] text-gray-500 uppercase font-bold">Multiplier</p>
+                <p class="text-sm font-semibold text-emerald-500">x2.44</p>
             </div>
         </div>
-        <div class="text-right">
-            <p class="text-[10px] text-gray-500 font-bold uppercase">Profit / Hr</p>
-            <p class="text-xs font-cyber neon-text">+12.5K</p>
-        </div>
     </div>
 
-    <div class="text-center">
-        <div class="flex items-center justify-center gap-2 mb-2">
-            <span class="text-gray-400 font-bold tracking-[0.2em] text-xs">TOTAL BALANCE</span>
+    <div id="tap-target" class="core-interface shadow-2xl">
+        <div class="text-center z-10">
+            <p class="text-[10px] text-emerald-400 font-bold tracking-[0.5em] mb-2 uppercase">Interface</p>
+            <div class="w-16 h-[1px] bg-emerald-900 mx-auto"></div>
         </div>
-        <h1 id="balance" class="text-5xl font-cyber font-bold tracking-tighter text-white">1,250.78</h1>
+        <img src="https://i.ibb.co/hR0fH8M/ghost-silhouette.png" class="absolute ghost-vector pointer-events-none" alt="specter">
     </div>
 
-    <div id="tap-target" class="coin-core cursor-pointer relative">
-        <span class="text-6xl">👻</span> </div>
-
-    <div class="w-full max-w-sm px-2 space-y-4">
-        <div class="flex justify-between items-end">
-            <div class="flex items-center gap-2">
-                <span class="text-2xl">⚡</span>
-                <p id="energy-val" class="text-2xl font-cyber font-bold">68 / 68</p>
+    <div class="w-full space-y-8">
+        <div class="space-y-3">
+            <div class="flex justify-between items-center px-1">
+                <span class="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-emerald-500">System Energy</span>
+                <span id="energy-text" class="text-xs font-mono font-semibold">68 / 68</span>
             </div>
-            <p class="text-xs font-bold text-[#1DB954] uppercase tracking-widest">Boost 🚀</p>
+            <div class="w-full h-[3px] bg-gray-900 rounded-full overflow-hidden">
+                <div id="energy-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 100%"></div>
+            </div>
         </div>
-        <div class="w-full bg-gray-900 h-2 rounded-full border border-gray-800">
-            <div id="energy-bar" class="bg-gradient-to-r from-[#1DB954] to-[#0d5c2a] h-full rounded-full transition-all duration-300" style="width: 100%"></div>
-        </div>
-    </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-xl border-t border-[#1DB954]/10 px-6 flex justify-around items-center z-50">
-        <div class="text-[#1DB954] text-center font-bold text-[10px]">⛏️<br>MINE</div>
-        <div class="text-gray-600 text-center font-bold text-[10px]">📋<br>TASKS</div>
-        <div class="text-gray-600 text-center font-bold text-[10px]">👥<br>FRIENDS</div>
-        <div class="text-gray-600 text-center font-bold text-[10px]">👛<br>WALLET</div>
-    </nav>
+        <nav class="flex justify-between items-center border-t border-gray-900 pt-6">
+            <div class="nav-link active">Terminal</div>
+            <div class="nav-link">Assets</div>
+            <div class="nav-link">Nodes</div>
+            <div class="nav-link">Secure</div>
+        </nav>
+    </div>
 
     <script>
-        let balance = 1250.78; let energy = 68; const maxEnergy = 68;
-        const tapTarget = document.getElementById('tap-target'); const balanceDisplay = document.getElementById('balance');
-        const energyBar = document.getElementById('energy-bar'); const energyVal = document.getElementById('energy-val');
+        let balance = 14250.00;
+        let energy = 68;
+        const maxEnergy = 68;
+        const balanceDisplay = document.getElementById('balance');
+        const energyBar = document.getElementById('energy-bar');
+        const energyText = document.getElementById('energy-text');
 
-        tapTarget.addEventListener('touchstart', (e) => {
-            e.preventDefault(); if (energy > 0) { handleTap(); }
+        document.getElementById('tap-target').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (energy > 0) {
+                balance += 0.05;
+                energy -= 1;
+                updateUI();
+                if (navigator.vibrate) navigator.vibrate(10);
+            }
         });
 
-        function handleTap() {
-            balance += 0.01; energy -= 1;
-            balanceDisplay.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            energyVal.innerText = `${energy} / ${maxEnergy}`;
+        function updateUI() {
+            balanceDisplay.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2});
+            energyText.innerText = `${energy} / ${maxEnergy}`;
             energyBar.style.width = `${(energy / maxEnergy) * 100}%`;
-            if (navigator.vibrate) navigator.vibrate(20);
         }
+
+        // Pasif Kazanç (Yıllık verim gibi ağır ağır artar)
+        setInterval(() => {
+            balance += 0.0002;
+            updateUI();
+        }, 1000);
     </script>
 </body>
 </html>
