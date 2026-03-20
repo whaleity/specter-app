@@ -3,109 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Specter Mini App</title>
+    <title>Specter - Dark Mining</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { background-color: #000; color: #fff; font-family: 'Inter', sans-serif; overflow: hidden; }
         .neon-text { text-shadow: 0 0 10px #1DB954, 0 0 20px #1DB954; color: #1DB954; }
         .neon-border { border: 2px solid #1DB954; box-shadow: 0 0 15px #1DB954; }
+        
+        /* Görüntüdeki gibi parlayan ana buton */
         .core-btn {
-            background: radial-gradient(circle, #1DB954 0%, #000 70%);
-            transition: transform 0.1s ease;
+            background: radial-gradient(circle, rgba(29,185,84,0.3) 0%, rgba(0,0,0,1) 70%);
+            transition: transform 0.05s ease, box-shadow 0.1s ease;
         }
-        .core-btn:active { transform: scale(0.9); }
-        .nav-item { color: #666; font-size: 0.7rem; }
-        .nav-item.active { color: #1DB954; }
+        .core-btn:active { 
+            transform: scale(0.92); 
+            box-shadow: 0 0 30px #1DB954;
+        }
+
+        /* Yüzen +0.01 yazısı efekti */
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-50px); }
+        }
+        .floating-text {
+            animation: floatUp 0.8s ease-out forwards;
+            pointer-events: none;
+        }
+        
+        .nav-item { color: #888; text-align: center; font-size: 0.65rem; transition: color 0.2s; }
+        .nav-item.active { color: #1DB954; font-weight: 600; }
+        .bg-card { background-color: #0a0a0a; border: 1px solid #1a1a1a; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-between h-screen p-6">
+<body class="flex flex-col items-center justify-between h-screen p-4 pb-20">
 
-    <div class="text-center mt-8">
-        <p class="text-gray-400 uppercase tracking-widest text-xs mb-2">Toplam Kazanç</p>
-        <h1 id="balance" class="text-5xl font-black neon-text">0.0000</h1>
-        <p class="text-xs text-gray-500 mt-2">Saniyelik Kazanç: +0.0001 SPCT</p>
-    </div>
-
-    <div class="relative">
-        <div id="click-area" class="core-btn w-64 h-64 rounded-full flex items-center justify-center neon-border cursor-pointer">
-            <span class="text-4xl font-bold text-white opacity-50">SPCT</span>
+    <div class="w-full max-w-sm bg-card rounded-2xl p-4 flex items-center justify-between border border-gray-900 mt-2">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center border border-gray-700 text-xs text-gray-500">
+                S
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Pilot</p>
+                <p class="font-semibold text-sm">Novice Miner</p>
+            </div>
+        </div>
+        <div class="text-right">
+            <p class="text-xs text-gray-500">Seviye</p>
+            <p class="font-bold neon-text">1 / 10</p>
         </div>
     </div>
 
-    <div class="w-full max-w-sm space-y-6 mb-4">
-        <div class="space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-                <span>Enerji Kapasitesi</span>
-                <span id="energy-text">68 / 68</span>
-            </div>
-            <div class="w-full bg-gray-800 h-3 rounded-full overflow-hidden">
-                <div id="energy-bar" class="bg-[#1DB954] h-full transition-all duration-300" style="width: 100%"></div>
+    <div class="text-center mt-6">
+        <div class="flex items-center justify-center gap-2 mb-1">
+            <p class="text-gray-400 uppercase tracking-widest text-xs">Specter Balance</p>
+        </div>
+        <h1 id="balance" class="text-5xl font-extrabold neon-text">12,450.78</h1>
+        
+        <div class="inline-flex items-center gap-2 bg-card px-3 py-1 rounded-full border border-gray-900 mt-3">
+            <span class="text-xs text-gray-500">Saatlik Pasif Kazanç:</span>
+            <span class="text-xs font-bold text-[#1DB954]">+0.05</span>
+        </div>
+    </div>
+
+    <div class="relative flex-grow flex items-center justify-center my-6">
+        <div id="click-area" class="core-btn w-64 h-64 rounded-full flex items-center justify-center neon-border cursor-pointer relative overflow-hidden">
+            <div class="w-48 h-48 rounded-full border border-[#1DB954]/20 flex items-center justify-center">
+                <span class="text-2xl font-black text-white/50 tracking-tighter">SPECTER</span>
             </div>
         </div>
+    </div>
 
-        <div class="bg-gray-900/50 backdrop-blur-md rounded-2xl p-4 flex justify-around border border-gray-800">
-            <div class="nav-item active flex flex-col items-center">
-                <div class="w-6 h-6 mb-1">⛏️</div>
-                <span>Madenci</span>
+    <div class="w-full max-w-sm space-y-3">
+        <div class="grid grid-cols-2 gap-2 text-center">
+            <div class="bg-card p-2 rounded-xl border border-gray-900">
+                <p class="text-[0.6rem] text-gray-500">Tıklama Başı</p>
+                <p class="font-bold text-xs text-white">x1.0</p>
             </div>
-            <div class="nav-item flex flex-col items-center">
-                <div class="w-6 h-6 mb-1">📋</div>
-                <span>Görevler</span>
+            <div class="bg-card p-2 rounded-xl border border-gray-900">
+                <p class="text-[0.6rem] text-gray-500">Günlük Limit</p>
+                <p class="font-bold text-xs text-white">68.00</p>
             </div>
-            <div class="nav-item flex flex-col items-center">
-                <div class="w-6 h-6 mb-1">👥</div>
-                <span>Ref</span>
+        </div>
+        
+        <div class="space-y-1.5">
+            <div class="flex justify-between text-[0.65rem] font-medium text-gray-400">
+                <span>Sonraki Seviye</span>
+                <span id="xp-text">1,250 / 5,000 XP</span>
             </div>
-            <div class="nav-item flex flex-col items-center">
-                <div class="w-6 h-6 mb-1">💰</div>
-                <span>Cüzdan</span>
+            <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div id="xp-bar" class="bg-[#1DB954] h-full transition-all duration-300" style="width: 25%"></div>
             </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 p-3 bg-black/80 backdrop-blur-lg border-t border-gray-900">
+        <div class="max-w-md mx-auto flex justify-around items-center">
+            <div class="nav-item active">⛏️<br>MINE</div>
+            <div class="nav-item">📈<br>UPGRADES</div>
+            <div class="nav-item">📋<br>TASKS</div>
+            <div class="nav-item">👥<br>FRIENDS</div>
+            <div class="nav-item">💰<br>WALLET</div>
         </div>
     </div>
 
     <script>
-        let balance = 0;
-        let energy = 68;
-        const maxEnergy = 68;
+        // Başlangıç Değerleri (Görüntüdeki gibi)
+        let balance = 12450.78;
+        let xp = 1250;
+        let maxXp = 5000;
+        let level = 1;
+        const profitPerHour = 0.05; // Saatlik pasif kazanç
+        const profitPerSecond = profitPerHour / 3600; // Saniyelik kazanç
 
         const balanceEl = document.getElementById('balance');
-        const energyBar = document.getElementById('energy-bar');
-        const energyText = document.getElementById('energy-text');
+        const xpBar = document.getElementById('xp-bar');
+        const xpText = document.getElementById('xp-text');
         const clickArea = document.getElementById('click-area');
 
-        // Pasif Kazanç (Saniyede bir artış)
+        // PASİF KAZANÇ DÖNGÜSÜ (Burası sihrin başladığı yer)
+        // Her 100 milisaniyede bir (saniyenin onda biri) bakiye artar.
         setInterval(() => {
-            balance += 0.0001;
+            balance += (profitPerSecond / 10);
             updateDisplay();
-        }, 1000);
+        }, 100);
 
-        // Tıklama Fonksiyonu
+        // TIKLAMA FONKSİYONU
         clickArea.addEventListener('click', (e) => {
-            if (energy > 0) {
-                balance += 0.01;
-                energy -= 1;
-                updateDisplay();
-                createFloatingText(e.clientX, e.clientY);
+            balance += 0.01; // Tıklama başı kazanç
+            xp += 10;        // Tıklama başı tecrübe
+
+            // Seviye Atlama Kontrolü
+            if (xp >= maxXp) {
+                level++;
+                xp = xp - maxXp; // Artan XP bir sonraki seviyeye aktarılır
+                maxXp = maxXp * 2; // Sonraki seviye zorlaşır
+                alert("TEBRİKLER! Seviye Atladın: " + level);
             }
+
+            updateDisplay();
+            createFloatingText(e.clientX, e.clientY);
         });
 
         function updateDisplay() {
-            balanceEl.innerText = balance.toFixed(4);
-            energyText.innerText = `${energy} / ${maxEnergy}`;
-            const percent = (energy / maxEnergy) * 100;
-            energyBar.style.width = percent + '%';
+            // Bakiyeyi formatlı göster (Binlik ayırıcı ekle)
+            balanceEl.innerText = balance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            
+            // XP Barını Güncelle
+            xpText.innerText = `${xp.toLocaleString()} / ${maxXp.toLocaleString()} XP`;
+            const percent = (xp / maxXp) * 100;
+            xpBar.style.width = percent + '%';
         }
 
-        // Tıklanan yerde +0.01 yazısı çıksın (Efekt)
+        // Tıklanan yerde +0.01 yazısı çıksın (Profesyonel Efekt)
         function createFloatingText(x, y) {
             const el = document.createElement('div');
             el.innerText = '+0.01';
-            el.className = 'absolute font-bold text-[#1DB954] pointer-events-none animate-bounce';
-            el.style.left = x + 'px';
-            el.style.top = (y - 50) + 'px';
-            document.body.appendChild(el);
+            el.className = 'absolute font-bold text-[#1DB954] floating-text text-xl z-50';
+            
+            // Konumu butonun içine sabitlemek için düzeltme
+            const rect = clickArea.getBoundingClientRect();
+            el.style.left = (x - rect.left - 20) + 'px';
+            el.style.top = (y - rect.top - 20) + 'px';
+            
+            clickArea.appendChild(el);
             setTimeout(() => el.remove(), 800);
         }
+
+        // İlk açılışta ekranı güncelle
+        updateDisplay();
     </script>
 </body>
 </html>
